@@ -1,5 +1,7 @@
 package com.king.app.domain.reserve;
 
+import com.king.app.domain.type.Route;
+import com.king.app.domain.type.Status;
 import com.king.app.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,9 +17,9 @@ public class ReserveLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime waitingDt; // 대기 누른 시간
-    private LocalDateTime enteredDt; // 입장한 시간
-    private Long waitingPartySize; // 팀 인원 수
+    private LocalDateTime reservationDt; // 예약 누른 시간
+    private Status status; // "CONFIRMED", "CANCELED", "CHANGED"
+    private Route route; // "COM", "MOBILE"
     private LocalDateTime updatedDt;
     private LocalDateTime deletedDt;
 
