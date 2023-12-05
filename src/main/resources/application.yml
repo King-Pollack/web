@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    group:
+      local: security-common,local-mysql
+      dev: security-common,dev-mysql
+      prod: security-common,prod-mysql
+---
+spring:
+  config:
+    activate:
+      on-profile: security-common
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${kakao-id}
+            client-secret: ${kakao-secret}
+            redirect-uri: ${base-redirect}/api/users/oauth2/login
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - gender
+              - age_range
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
