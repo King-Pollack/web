@@ -1,6 +1,7 @@
 package com.king.app.domain.user;
 
 import com.king.app.domain.reserve.ReservationLog;
+import com.king.app.domain.type.UserAgeRange;
 import com.king.app.domain.type.UserGender;
 import com.king.app.domain.waiting.WaitingLog;
 import jakarta.persistence.*;
@@ -18,9 +19,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-    private String ageRange; // (String type 1~9: 1세 이상 10세 미만)
+    private UserAgeRange ageRange; // (String type 1~9: 1세 이상 10세 미만)
     private UserGender gender; // female, male
     private String phoneNumber; // +82 00-0000-0000
+    private String nickname;
     private LocalDateTime createdDt;
     private LocalDateTime updatedDt;
     private LocalDateTime deletedDt;
