@@ -26,6 +26,9 @@ public class User {
     private UserGender gender; // female, male
     private String phoneNumber; // +82 00-0000-0000
     private String nickname;
+    private String provider;
+    private String providerId;
+    private String email;
     private LocalDateTime createdDt;
     private LocalDateTime updatedDt;
     private LocalDateTime deletedDt;
