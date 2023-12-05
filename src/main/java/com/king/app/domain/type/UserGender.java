@@ -5,8 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Route {
-    COM("컴퓨터"),
-    MOBILE("모바일");
+public enum UserGender {
+    female("여자"), male("남자");
     private final String description;
 }

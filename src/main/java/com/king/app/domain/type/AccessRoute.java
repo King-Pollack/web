@@ -5,9 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Status {
-    CONFIRMED("확인"),
-    CANCELED("취소"),
-    CHANGED("변경");
-    private final String description;
+public enum AccessRoute {
+    PC("컴퓨터"),
+    MOBILE("모바일");
+    private final String value;
 }
