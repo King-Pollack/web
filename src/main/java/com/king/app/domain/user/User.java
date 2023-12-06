@@ -6,6 +6,9 @@ import com.king.app.domain.type.UserGender;
 import com.king.app.domain.waiting.WaitingLog;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,6 +19,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 @Table(uniqueConstraints = {
         @UniqueConstraint(
                 name = "uq_provider_id",
@@ -38,7 +42,9 @@ public class User implements Serializable {
     private String provider;
     private String providerId;
     private String email;
+    @CreatedDate
     private LocalDateTime createdDt;
+    @LastModifiedDate
     private LocalDateTime updatedDt;
     private LocalDateTime deletedDt;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
