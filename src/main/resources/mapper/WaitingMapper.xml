@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.king.app.mapper.WaitingMapper">
+    <resultMap id="waitingLogResultMap" type="com.king.app.domain.waiting.WaitingLog">
+        <id property="id" column="id" />
+        <result property="waitingDt" column="waitingDt" />
+        <result property="enteredDt" column="enteredDt" />
+        <result property="waitingPartySize" column="waitingPartySize" />
+
+        <association property="user" javaType="com.king.app.domain.user.User">
+            <id property="userId" column="user_id" />
+        </association>
+
+    </resultMap>
+
+    <!--  입장통계  -->
+
+    <select id="calculateTodayAverageEntryTime" resultType="Double">
+        SELECT AVG(UNIX_TIMESTAMP(entered_dt) - UNIX_TIMESTAMP(waiting_dt))
+        FROM waiting_log
+        WHERE waiting_dt BETWEEN #{startOfDay} AND #{now}
+    </select>
+
+    <select id="calculateWeekAverageEntryTime" resultType="Double">
+        SELECT AVG(UNIX_TIMESTAMP(entered_dt) - UNIX_TIMESTAMP(waiting_dt))
+        FROM waiting_log
+        WHERE waiting_dt BETWEEN #{weekDto.firstDay} AND #{weekDto.lastDay}
+    </select>
+
+    <select id="calculateMonthAverageEntryTime" resultType="Double">
+        SELECT AVG(UNIX_TIMESTAMP(entered_dt) - UNIX_TIMESTAMP(waiting_dt))
+        FROM waiting_log
+        WHERE YEAR(waiting_dt) = #{monthDto.year} AND MONTH(waiting_dt) = #{monthDto.month}
+    </select>
+
+    <!--  평균 인원 통계  -->
+
+    <select id="getTodayPartySize" resultType="Double">
+        SELECT AVG(waiting_party_size)
+        FROM waiting_log
+        WHERE waiting_dt BETWEEN #{startOfDay} AND #{now}
+    </select>
+
+    <select id="getWeekPartySize" resultType="Double">
+        SELECT AVG(waiting_party_size)
+        FROM waiting_log
+        WHERE waiting_dt BETWEEN #{weekDto.firstDay} AND #{weekDto.lastDay}
+    </select>
+
+    <select id="getMonthPartySize" resultType="Double">
+        SELECT AVG(waiting_party_size)
+        FROM waiting_log
+        WHERE YEAR(waiting_dt) = #{monthDto.year} AND MONTH(waiting_dt) = #{monthDto.month}
+    </select>
+
+
+<!--  대기 평균 누른 시간  -->
+    <select id="findAllTodayWaitTime" resultMap="waitTimeTodayResultMap">
+        SELECT HOUR(waiting_dt) AS hour, COUNT(*) AS count
+        FROM waiting_log
+        WHERE DATE(waiting_dt) = #{now}
+        GROUP BY hour
+        ORDER BY hour
+    </select>
+
+    <resultMap id="waitTimeTodayResultMap" type="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
+        <id property="hour" column="hour" />
+        <result property="count" column="count" />
+    </resultMap>
+
+    <select id="findAllWeekWaitTime" resultMap="waitTimeWeekResultMap">
+        SELECT
+            HOUR(waiting_dt) AS hour,
+            COUNT(*) AS count
+        FROM waiting_log
+        WHERE waiting_dt BETWEEN #{weekDto.firstDay} AND #{weekDto.lastDay}
+        GROUP BY hour
+        ORDER BY hour
+    </select>
+
+    <resultMap id="waitTimeWeekResultMap" type="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
+        <id property="hour" column="hour" />
+        <result property="count" column="count" />
+    </resultMap>
+
+    <select id="findAllMonthWaitTime" resultMap="waitTimeMonthResultMap">
+        SELECT
+            HOUR(waiting_dt) AS hour,
+            COUNT(*) AS count
+        FROM waiting_log
+        WHERE YEAR(waiting_dt) = #{monthDto.year} AND MONTH(waiting_dt) = #{monthDto.month}
+        GROUP BY hour
+        ORDER BY hour
+    </select>
+
+    <resultMap id="waitTimeMonthResultMap" type="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
+        <id property="hour" column="hour" />
+        <result property="count" column="count" />
+    </resultMap>
+
+</mapper>
