@@ -1,0 +1,77 @@
+<html lang="en" data-bs-theme="light">
+<th:block th:replace="~{waiting/layout/header::header}"></th:block>
+<body style="">
+<th:block th:replace="~{waiting/layout/headbar::headbar}"></th:block>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <th:block th:replace="~{waiting/layout/sidebar::sidebar}"></th:block>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+            <div class="py-5 text-center container bg-main">
+                <main>
+                    <h1>안녕하세요 황태보감 입니다.</h1>
+                    <h1>현재 대기 팀 n</h1>
+                </main>
+            </div>
+            <div class="py-5 text-center container">
+            </div>
+            <div class="py-5 text-center container">
+                <main>
+                    <a class="btn btn-yellow" href="/oauth2/authorization/kakao">Kakao Login</a><br>
+                </main>
+            </div>
+
+
+        </main>
+    </div>
+</div>
+<script src="https://getbootstrap.kr/docs/5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"
+        integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG"
+        crossorigin="anonymous"></script>
+<script src="https://getbootstrap.kr/docs/5.3/examples/dashboard/dashboard.js"></script>
+<script src="../../static/js/scripts.js"></script>
+
+<script>
+    (function () {
+        var ws = new WebSocket('ws://' + window.location.host +
+            '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' +
+            'referrer=' + encodeURIComponent(window.location.pathname));
+        ws.onmessage = function (msg) {
+            if (msg.data === 'reload') {
+                window.location.reload();
+            }
+            if (msg.data.startsWith('update-css ')) {
+                var messageId = msg.data.substring(11);
+                var links = document.getElementsByTagName('link');
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    if (link.rel !== 'stylesheet') continue;
+                    var clonedLink = link.cloneNode(true);
+                    var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                    if (newHref !== link.href) {
+                        clonedLink.href = newHref;
+                    } else {
+                        var indexOfQuest = newHref.indexOf('?');
+                        if (indexOfQuest >= 0) {
+                            // to support ?foo#hash
+                            clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                                newHref.substring(indexOfQuest + 1);
+                        } else {
+                            clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                        }
+                    }
+                    link.replaceWith(clonedLink);
+                }
+            }
+        };
+    })();
+</script>
+</body>
+</html>
