@@ -7,6 +7,7 @@ import com.king.app.domain.waiting.WaitingLog;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,12 +16,20 @@ import java.util.List;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uq_provider_id",
+                columnNames = {
+                        "providerId",
+                }
+        )
+})
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = UserAgeRangeConverter.class)
     private UserAgeRange ageRange; // (String type 1~9: 1세 이상 10세 미만)
     @Enumerated(EnumType.STRING)
     private UserGender gender; // female, male
