@@ -16,64 +16,10 @@
 
 <body class="nav-fixed">
 
-   <!-- top 분리 -->
-   <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
-       <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0" id="sidebarToggle"><i data-feather="menu"></i></button>
-       <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="bus_main.jsp">사장님 페이지</a>
 
-       <ul class="navbar-nav align-items-center ms-auto">
-           <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
-
-
-               <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="user"></i></a>
-               <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
-                   <h6 class="dropdown-header d-flex align-items-center">
-
-                   </h6>
-                   <div class="dropdown-divider"></div>
-                   <a class="dropdown-item" href="logout.jsp">
-                       <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
-                       로그아웃
-                   </a>
-
-                   </h6>
-                   <div class="dropdown-divider"></div>
-                   <a class="dropdown-item" href="index.jsp">
-                       <div class="dropdown-item-icon"><i data-feather="log-in"></i></div>
-                       로그인
-                   </a>
-
-               </div>
-           </li>
-       </ul>
-   </nav>
-   <!--  -->
+   <th:block th:replace="~{admin/layout/headbar::navbar}"></th:block>
     <div id="layoutSidenav">
-        <!-- side 분리 -->
-        <div id="layoutSidenav_nav">
-            <nav class="sidenav shadow-right sidenav-light">
-                <div class="sidenav-menu">
-                    <div class="nav accordion" id="accordionSidenav">
-
-                        <div class="sidenav-menu-heading">메뉴</div>
-                        <a class="nav-link" href="bus_reservation.jsp">
-                            <div class="nav-link-icon"><i data-feather="edit-3"></i></div>
-                            대기 현황
-                        </a>
-                        <a class="nav-link" href="ticket_list.jsp">
-                            <div class="nav-link-icon"><i data-feather="list"></i></div>
-                            예약 현황
-                        </a>
-
-                        <a class="nav-link" href="ticket_list.jsp">
-                            <div class="nav-link-icon"><i data-feather="list"></i></div>
-                            통계
-                        </a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        <!--  -->
+        <th:block th:replace="~{admin/layout/sidebar::navbar}"></th:block>
         <div id="layoutSidenav_content">
             <main>
                 <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">

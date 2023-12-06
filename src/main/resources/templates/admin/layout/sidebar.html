@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="navbar" id="layoutSidenav_nav">
+    <nav class="sidenav shadow-right sidenav-light">
+        <div class="sidenav-menu">
+            <div class="nav accordion" id="accordionSidenav">
+
+                <div class="sidenav-menu-heading">메뉴</div>
+                <a class="nav-link" href="bus_reservation.jsp">
+                    <div class="nav-link-icon"><i data-feather="edit-3"></i></div>
+                    대기 현황
+                </a>
+                <a class="nav-link" href="ticket_list.jsp">
+                    <div class="nav-link-icon"><i data-feather="list"></i></div>
+                    예약 현황
+                </a>
+
+                <a class="nav-link" href="ticket_list.jsp">
+                    <div class="nav-link-icon"><i data-feather="list"></i></div>
+                    통계
+                </a>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

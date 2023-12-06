@@ -18,4 +18,12 @@ public enum UserAgeRange {
     AGE_80_89("80~89"), // 80세 이상 90세 미만
     AGE_90_PLUS("90~"); // 90세 이상
     private final String value;
+    public static UserAgeRange of(String value) {
+        for (UserAgeRange userAgeRange : UserAgeRange.values()) {
+            if (userAgeRange.getValue().equals(value)) {
+                return userAgeRange;
+            }
+        }
+        throw new IllegalArgumentException("Invalid UserAgeRange value: " + value);
+    }
 }

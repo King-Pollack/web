@@ -17,7 +17,9 @@ public class ReservationLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime reservationDt; // 예약 누른 시간
+    @Enumerated(EnumType.STRING)
     private ReservationStatus status; // "CONFIRMED", "CANCELED", "CHANGED"
+    @Enumerated(EnumType.STRING)
     private AccessRoute route; // "COM", "MOBILE"
     private LocalDateTime updatedDt;
     private LocalDateTime deletedDt;
