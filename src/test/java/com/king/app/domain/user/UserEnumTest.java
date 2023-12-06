@@ -20,7 +20,7 @@ class UserEnumTest {
 
     @Test
     @Transactional
-    public void user_enum_test() {
+    void user_enum_test() {
         User user = User.builder()
                 .ageRange(UserAgeRange.AGE_1_9)
                 .gender(UserGender.male)
