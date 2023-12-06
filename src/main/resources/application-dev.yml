@@ -34,3 +34,21 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
+---
+spring:
+  config:
+    activate:
+      on-profile: dev-db-redis
+db-redis:
+  host: ${DB-REDIS_HOST}
+  port: ${DB-REDIS_PORT}
+  password: ${DB-REDIS_PASSWORD}
+---
+spring:
+  config:
+    activate:
+      on-profile: dev-cache-redis
+cache-redis:
+  host: ${CACHE-REDIS_HOST}
+  port: ${CACHE-REDIS_PORT}
+  password: ${CACHE-REDIS_PASSWORD}

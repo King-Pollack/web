@@ -33,3 +33,21 @@ spring:
     redis:
       host: localhost
       port: 6379
+---
+spring:
+  config:
+    activate:
+      on-profile: local-db-redis
+db-redis:
+  host: localhost
+  port: 6380
+  password:
+---
+spring:
+  config:
+    activate:
+      on-profile: local-cache-redis
+cache-redis:
+  host: localhost
+  port: 6381
+  password:
