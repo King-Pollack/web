@@ -25,8 +25,9 @@ public class WaitingEntryServiceImpl implements WaitingEntryService {
 
     @Override
     public AverageEntryTimeResponse getWeekAverageEntryTime(WeekDateTimeDto date) {
-        WeekDto weekDto = date.toWeekDto();
-        Double averageEntryTime = waitingMapper.calculateWeekAverageEntryTime(weekDto);
+        WeekDto initWeek = WeekDto
+                .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
+        Double averageEntryTime = waitingMapper.calculateWeekAverageEntryTime(initWeek);
         return getAverageEntryTimeResponse(averageEntryTime);
     }
 

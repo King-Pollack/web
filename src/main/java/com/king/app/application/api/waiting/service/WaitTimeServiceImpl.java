@@ -36,13 +36,14 @@ public class WaitTimeServiceImpl implements WaitTimeService{
 
     @Override
     public List<AverageWaitTimeResponse> findAllWeekWaitTime(WeekDateTimeDto date) {
-        WeekDto weekDto = date.toWeekDto();
-        int lastDay = weekDto.getLastDay().getDayOfMonth();
-        int firstDay = weekDto.getFirstDay().getDayOfMonth();
+        WeekDto initWeek = WeekDto
+                .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
+        int lastDay = initWeek.getLastDay().getDayOfMonth();
+        int firstDay = initWeek.getFirstDay().getDayOfMonth();
         Integer days = lastDay - firstDay + 1;
         List<AverageWaitTimeResponse> list = new ArrayList<>();
         List<WaitTimeDto> allWeekWaitTime =
-                waitingMapper.findAllWeekWaitTime(weekDto);
+                waitingMapper.findAllWeekWaitTime(initWeek);
         for (WaitTimeDto waitTimeDto : allWeekWaitTime) {
             // 일주일 간 count 수 가져오기
             Integer count1 = waitTimeDto.getCount();

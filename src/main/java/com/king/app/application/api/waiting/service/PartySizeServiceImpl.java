@@ -25,8 +25,9 @@ public class PartySizeServiceImpl implements PartySizeService {
 
     @Override
     public AveragePartySizeResponse getWeekPartySizeAverage(WeekDateTimeDto date) {
-        WeekDto weekDto = date.toWeekDto();
-        Double partySize = Math.ceil(waitingMapper.getWeekPartySize(weekDto) * 10.0) / 10.0;
+        WeekDto initWeek = WeekDto
+                .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
+        Double partySize = Math.ceil(waitingMapper.getWeekPartySize(initWeek) * 10.0) / 10.0;
         return getAveragePartySizeResponse(partySize);
     }
 
