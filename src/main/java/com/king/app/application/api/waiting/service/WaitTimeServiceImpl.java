@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,8 +78,6 @@ public class WaitTimeServiceImpl implements WaitTimeService{
         return list;
     }
     private LocalDate getLastDayOfMonth(int year, int month) {
-        return LocalDate.of(year, month, 1)
-                .plusMonths(1)
-                .minusDays(1);
+        return YearMonth.of(year, month).atEndOfMonth();
     }
 }
