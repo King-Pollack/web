@@ -1,9 +1,9 @@
 spring:
   profiles:
     group:
-      local: security-common,local-mysql,local-session-redis
-      dev: security-common,dev-mysql,dev-session-redis
-      prod: security-common,prod-mysql,prod-session-redis
+      local: security-common,local-mysql,local-session-redis,local-db-redis,local-cache-redis
+      dev: security-common,dev-mysql,dev-session-redis,dev-db-redis,dev-cache-redis
+      prod: security-common,prod-mysql,prod-session-redis,prod-db-redis,prod-cache-redis
 ---
 spring:
   config:
