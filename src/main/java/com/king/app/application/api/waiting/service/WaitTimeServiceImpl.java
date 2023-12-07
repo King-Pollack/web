@@ -76,7 +76,7 @@ public class WaitTimeServiceImpl implements WaitTimeService{
         }
         return list;
     }
-    public static LocalDate getLastDayOfMonth(int year, int month) {
+    private LocalDate getLastDayOfMonth(int year, int month) {
         return LocalDate.of(year, month, 1)
                 .plusMonths(1)
                 .minusDays(1);
