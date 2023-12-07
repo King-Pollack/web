@@ -28,9 +28,10 @@
     </select>
 
     <select id="calculateMonthAverageEntryTime" resultType="Double">
-        SELECT AVG(UNIX_TIMESTAMP(entered_dt) - UNIX_TIMESTAMP(waiting_dt))
-        FROM waiting_log
-        WHERE YEAR(waiting_dt) = #{monthDto.year} AND MONTH(waiting_dt) = #{monthDto.month}
+    SELECT AVG(UNIX_TIMESTAMP(entered_dt) - UNIX_TIMESTAMP(waiting_dt))
+    FROM waiting_log
+    WHERE waiting_dt >= DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01')
+            AND DATE_ADD(DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH)
     </select>
 
     <!--  평균 인원 통계  -->
@@ -50,12 +51,14 @@
     <select id="getMonthPartySize" resultType="Double">
         SELECT AVG(waiting_party_size)
         FROM waiting_log
-        WHERE YEAR(waiting_dt) = #{monthDto.year} AND MONTH(waiting_dt) = #{monthDto.month}
+        WHERE waiting_dt BETWEEN DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01')
+                  AND DATE_ADD(DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH);
+
     </select>
 
 
 <!--  대기 평균 누른 시간  -->
-    <select id="findAllTodayWaitTime" resultMap="waitTimeTodayResultMap">
+    <select id="findAllTodayWaitTime" resultType="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
         SELECT HOUR(waiting_dt) AS hour, COUNT(*) AS count
         FROM waiting_log
         WHERE DATE(waiting_dt) = #{now}
@@ -63,12 +66,8 @@
         ORDER BY hour
     </select>
 
-    <resultMap id="waitTimeTodayResultMap" type="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
-        <id property="hour" column="hour" />
-        <result property="count" column="count" />
-    </resultMap>
 
-    <select id="findAllWeekWaitTime" resultMap="waitTimeWeekResultMap">
+    <select id="findAllWeekWaitTime" resultType="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
         SELECT
             HOUR(waiting_dt) AS hour,
             COUNT(*) AS count
@@ -78,24 +77,17 @@
         ORDER BY hour
     </select>
 
-    <resultMap id="waitTimeWeekResultMap" type="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
-        <id property="hour" column="hour" />
-        <result property="count" column="count" />
-    </resultMap>
 
-    <select id="findAllMonthWaitTime" resultMap="waitTimeMonthResultMap">
+    <select id="findAllMonthWaitTime" resultType="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
         SELECT
             HOUR(waiting_dt) AS hour,
             COUNT(*) AS count
         FROM waiting_log
-        WHERE YEAR(waiting_dt) = #{monthDto.year} AND MONTH(waiting_dt) = #{monthDto.month}
+        WHERE waiting_dt BETWEEN DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01')
+          AND DATE_ADD(DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH)
         GROUP BY hour
-        ORDER BY hour
-    </select>
+        ORDER BY hour;
 
-    <resultMap id="waitTimeMonthResultMap" type="com.king.app.presentation.api.waiting.dto.WaitTimeDto">
-        <id property="hour" column="hour" />
-        <result property="count" column="count" />
-    </resultMap>
+    </select>
 
 </mapper>
