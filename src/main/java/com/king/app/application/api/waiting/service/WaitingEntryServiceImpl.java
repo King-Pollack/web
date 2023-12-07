@@ -2,7 +2,7 @@ package com.king.app.application.api.waiting.service;
 
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
-import com.king.app.infrastructure.api.common.dto.WeekDateTimeDto;
+import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
 import com.king.app.presentation.api.waiting.response.AverageEntryTimeResponse;
 import com.king.app.mapper.WaitingMapper;
 import lombok.RequiredArgsConstructor;

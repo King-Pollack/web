@@ -1,6 +1,6 @@
 package com.king.app.application.api.waiting.service;
 
-import com.king.app.infrastructure.api.common.dto.WeekDateTimeDto;
+import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.mapper.WaitingMapper;
 import com.king.app.presentation.api.waiting.dto.WaitTimeDto;
@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

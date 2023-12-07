@@ -1,5 +1,6 @@
-package com.king.app.infrastructure.api.common.dto;
+package com.king.app.application.api.waiting.service.dto;
 
+import com.king.app.infrastructure.api.common.dto.WeekDto;
 import lombok.Getter;
 
 @Getter
