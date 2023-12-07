@@ -63,7 +63,7 @@ public class WaitTimeServiceImpl implements WaitTimeService{
         LocalDate lastDayOfMonth = getLastDayOfMonth(date.getYear(), date.getMonth());
         Integer days = lastDayOfMonth.getDayOfMonth();
         List<AverageWaitTimeResponse> list = new ArrayList<>();
-        List<WaitTimeDto> allMonthWaitTime = waitingMapper.findAllMonthWaitTime(date);
+        List<WaitTimeDto> allMonthWaitTime = waitingMapper.findAllMonthWaitTime(date.getYear(), date.getMonth());
         for (WaitTimeDto waitTimeDto : allMonthWaitTime) {
             Integer count = waitTimeDto.getCount();
             Double divideCount = (double) count / days;

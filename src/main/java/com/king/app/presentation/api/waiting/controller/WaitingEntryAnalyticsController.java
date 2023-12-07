@@ -1,8 +1,8 @@
 package com.king.app.presentation.api.waiting.controller;
 
 import com.king.app.application.api.waiting.service.WaitingEntryService;
-import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
 import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
+import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
 import com.king.app.presentation.api.waiting.response.AverageEntryTimeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

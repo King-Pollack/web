@@ -2,7 +2,6 @@ package com.king.app.mapper;
 
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.presentation.api.waiting.dto.WaitTimeDto;
-import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +19,9 @@ public interface WaitingMapper {
 
     Double calculateWeekAverageEntryTime(@Param("weekDto") WeekDto weekDto);
 
-    Double calculateMonthAverageEntryTime(@Param("monthDto") MonthDateTimeRequest monthDto);
+    Double calculateMonthAverageEntryTime(@Param("year") Integer year,
+                                          @Param("month") Integer month);
+
     /*
     한 팀에 몇 명이었는지 평균 mapper
      */
@@ -30,14 +31,17 @@ public interface WaitingMapper {
 
     Double getWeekPartySize(@Param("weekDto") WeekDto weekDto);
 
-    Double getMonthPartySize(@Param("monthDto") MonthDateTimeRequest monthDto);
+    Double getMonthPartySize(@Param("year") Integer year,
+                             @Param("month") Integer month);
 
     /*
     대기하기 누른 평균 시간 mapper
      */
+
     List<WaitTimeDto> findAllTodayWaitTime(@Param("now") LocalDate now);
 
     List<WaitTimeDto> findAllWeekWaitTime(@Param("weekDto") WeekDto weekDto);
 
-    List<WaitTimeDto> findAllMonthWaitTime(@Param("monthDto") MonthDateTimeRequest monthDto);
+    List<WaitTimeDto> findAllMonthWaitTime(@Param("year") Integer year,
+                                           @Param("month") Integer month);
 }

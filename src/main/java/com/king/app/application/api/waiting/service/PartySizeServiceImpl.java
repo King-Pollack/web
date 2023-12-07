@@ -32,7 +32,7 @@ public class PartySizeServiceImpl implements PartySizeService {
 
     @Override
     public AveragePartySizeResponse getMonthPartySizeAverage(MonthDateTimeRequest date) {
-        Double monthPartySize = waitingMapper.getMonthPartySize(date);
+        Double monthPartySize = waitingMapper.getMonthPartySize(date.getYear(), date.getMonth());
         return getAveragePartySizeResponse(monthPartySize);
     }
 

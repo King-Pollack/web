@@ -28,10 +28,10 @@
     </select>
 
     <select id="calculateMonthAverageEntryTime" resultType="Double">
-    SELECT AVG(UNIX_TIMESTAMP(entered_dt) - UNIX_TIMESTAMP(waiting_dt))
-    FROM waiting_log
-    WHERE waiting_dt >= DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01')
-            AND DATE_ADD(DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH)
+        SELECT AVG(UNIX_TIMESTAMP(entered_dt) - UNIX_TIMESTAMP(waiting_dt))
+        FROM waiting_log
+        WHERE waiting_dt >= DATE_FORMAT(CONCAT(#{year}, '-', #{month}, '-01'), '%Y-%m-01')
+          AND DATE_ADD(DATE_FORMAT(CONCAT(#{year}, '-', #{month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH)
     </select>
 
     <!--  평균 인원 통계  -->
@@ -51,8 +51,8 @@
     <select id="getMonthPartySize" resultType="Double">
         SELECT AVG(waiting_party_size)
         FROM waiting_log
-        WHERE waiting_dt BETWEEN DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01')
-                  AND DATE_ADD(DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH);
+        WHERE waiting_dt BETWEEN DATE_FORMAT(CONCAT(#{year}, '-', #{month}, '-01'), '%Y-%m-01')
+                  AND DATE_ADD(DATE_FORMAT(CONCAT(#{year}, '-', #{month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH);
 
     </select>
 
@@ -83,8 +83,8 @@
             HOUR(waiting_dt) AS hour,
             COUNT(*) AS count
         FROM waiting_log
-        WHERE waiting_dt BETWEEN DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01')
-          AND DATE_ADD(DATE_FORMAT(CONCAT(#{monthDto.year}, '-', #{monthDto.month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH)
+        WHERE waiting_dt BETWEEN DATE_FORMAT(CONCAT(#{year}, '-', #{month}, '-01'), '%Y-%m-01')
+          AND DATE_ADD(DATE_FORMAT(CONCAT(#{year}, '-', #{month}, '-01'), '%Y-%m-01'), INTERVAL 1 MONTH)
         GROUP BY hour
         ORDER BY hour;
 
