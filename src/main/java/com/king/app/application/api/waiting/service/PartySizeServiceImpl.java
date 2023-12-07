@@ -1,6 +1,6 @@
 package com.king.app.application.api.waiting.service;
 
-import com.king.app.infrastructure.api.common.dto.WeekDateTimeDto;
+import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.mapper.WaitingMapper;
 import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
@@ -25,14 +25,15 @@ public class PartySizeServiceImpl implements PartySizeService {
 
     @Override
     public AveragePartySizeResponse getWeekPartySizeAverage(WeekDateTimeDto date) {
-        WeekDto weekDto = date.toWeekDto();
-        Double partySize = Math.ceil(waitingMapper.getWeekPartySize(weekDto) * 10.0) / 10.0;
+        WeekDto initWeek = WeekDto
+                .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
+        Double partySize = Math.ceil(waitingMapper.getWeekPartySize(initWeek) * 10.0) / 10.0;
         return getAveragePartySizeResponse(partySize);
     }
 
     @Override
     public AveragePartySizeResponse getMonthPartySizeAverage(MonthDateTimeRequest date) {
-        Double monthPartySize = waitingMapper.getMonthPartySize(date);
+        Double monthPartySize = waitingMapper.getMonthPartySize(date.getYear(), date.getMonth());
         return getAveragePartySizeResponse(monthPartySize);
     }
 

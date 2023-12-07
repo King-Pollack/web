@@ -9,8 +9,13 @@ import java.time.LocalDateTime;
 public class WeekDto {
     private LocalDateTime firstDay;
     private LocalDateTime lastDay;
+    public static WeekDto createInitializedWeekDto(int year, int month, int week) {
+        WeekDto weekDto = new WeekDto();
+        weekDto.initializeWeekDays(year, month, week);
+        return weekDto;
+    }
 
-    public WeekDto getWeekDays(int year, int month, int week) {
+    private void initializeWeekDays(int year, int month, int week) {
         int startDay = (week - 1) * 7 + 1;
 
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
@@ -27,7 +32,5 @@ public class WeekDto {
 
         this.firstDay = startDate.atStartOfDay();
         this.lastDay = endDate.atTime(23, 59, 59);
-
-        return this;
     }
 }

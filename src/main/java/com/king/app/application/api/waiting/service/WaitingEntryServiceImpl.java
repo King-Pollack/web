@@ -1,10 +1,10 @@
 package com.king.app.application.api.waiting.service;
 
+import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
 import com.king.app.infrastructure.api.common.dto.WeekDto;
-import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
-import com.king.app.infrastructure.api.common.dto.WeekDateTimeDto;
-import com.king.app.presentation.api.waiting.response.AverageEntryTimeResponse;
 import com.king.app.mapper.WaitingMapper;
+import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
+import com.king.app.presentation.api.waiting.response.AverageEntryTimeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +25,16 @@ public class WaitingEntryServiceImpl implements WaitingEntryService {
 
     @Override
     public AverageEntryTimeResponse getWeekAverageEntryTime(WeekDateTimeDto date) {
-        WeekDto weekDto = date.toWeekDto();
-        Double averageEntryTime = waitingMapper.calculateWeekAverageEntryTime(weekDto);
+        WeekDto initWeek = WeekDto
+                .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
+        Double averageEntryTime = waitingMapper.calculateWeekAverageEntryTime(initWeek);
         return getAverageEntryTimeResponse(averageEntryTime);
     }
 
     @Override
     public AverageEntryTimeResponse getMonthAverageEntryTime(MonthDateTimeRequest date) {
-        Double averageEntryTime = waitingMapper.calculateMonthAverageEntryTime(date);
+        Double averageEntryTime = waitingMapper
+                .calculateMonthAverageEntryTime(date.getYear(), date.getMonth());
         return getAverageEntryTimeResponse(averageEntryTime);
     }
 

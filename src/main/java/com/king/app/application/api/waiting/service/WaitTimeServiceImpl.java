@@ -1,6 +1,6 @@
 package com.king.app.application.api.waiting.service;
 
-import com.king.app.infrastructure.api.common.dto.WeekDateTimeDto;
+import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.mapper.WaitingMapper;
 import com.king.app.presentation.api.waiting.dto.WaitTimeDto;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +36,14 @@ public class WaitTimeServiceImpl implements WaitTimeService{
 
     @Override
     public List<AverageWaitTimeResponse> findAllWeekWaitTime(WeekDateTimeDto date) {
-        WeekDto weekDto = date.toWeekDto();
-        int lastDay = weekDto.getLastDay().getDayOfMonth();
-        int firstDay = weekDto.getFirstDay().getDayOfMonth();
+        WeekDto initWeek = WeekDto
+                .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
+        int lastDay = initWeek.getLastDay().getDayOfMonth();
+        int firstDay = initWeek.getFirstDay().getDayOfMonth();
         Integer days = lastDay - firstDay + 1;
         List<AverageWaitTimeResponse> list = new ArrayList<>();
         List<WaitTimeDto> allWeekWaitTime =
-                waitingMapper.findAllWeekWaitTime(weekDto);
+                waitingMapper.findAllWeekWaitTime(initWeek);
         for (WaitTimeDto waitTimeDto : allWeekWaitTime) {
             // 일주일 간 count 수 가져오기
             Integer count1 = waitTimeDto.getCount();
@@ -64,7 +65,7 @@ public class WaitTimeServiceImpl implements WaitTimeService{
         LocalDate lastDayOfMonth = getLastDayOfMonth(date.getYear(), date.getMonth());
         Integer days = lastDayOfMonth.getDayOfMonth();
         List<AverageWaitTimeResponse> list = new ArrayList<>();
-        List<WaitTimeDto> allMonthWaitTime = waitingMapper.findAllMonthWaitTime(date);
+        List<WaitTimeDto> allMonthWaitTime = waitingMapper.findAllMonthWaitTime(date.getYear(), date.getMonth());
         for (WaitTimeDto waitTimeDto : allMonthWaitTime) {
             Integer count = waitTimeDto.getCount();
             Double divideCount = (double) count / days;
@@ -77,9 +78,7 @@ public class WaitTimeServiceImpl implements WaitTimeService{
         }
         return list;
     }
-    public static LocalDate getLastDayOfMonth(int year, int month) {
-        return LocalDate.of(year, month, 1)
-                .plusMonths(1)
-                .minusDays(1);
+    private LocalDate getLastDayOfMonth(int year, int month) {
+        return YearMonth.of(year, month).atEndOfMonth();
     }
 }
