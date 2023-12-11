@@ -3,21 +3,19 @@ package com.king.app.application.waiting;
 import com.king.app.domain.user.User;
 import com.king.app.domain.waiting.WaitingLog;
 import com.king.app.infrastructure.repository.waiting.WaitingLogRepository;
-import com.king.app.mapper.WaitingMapper;
+import com.king.app.infrastructure.mapper.WaitingMapper;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class WaitingLogServiceImpl implements WaitingLogService{
     private final WaitingLogRepository waitingLogRepository;
     private final WaitingMapper waitingMapper;
-    private static final Logger LOG = LoggerFactory.getLogger(WaitingLogServiceImpl.class);
 
     @Override
     public void pressWait(User user, Integer partySize) {
@@ -27,13 +25,13 @@ public class WaitingLogServiceImpl implements WaitingLogService{
                 .user(user)
                 .build();
         waitingLogRepository.save(build);
-        LOG.info("UserId is {} press wait with party size {} at {}",
+        log.info("UserId is {} press wait with party size {} at {}",
                 user.getId(), partySize, build.getWaitingDt());
     }
 
     @Override
     public void enter(User user) {
-        waitingMapper.updateWaitingLog(LocalDate.now(), user.getId());
-        LOG.info("UserId is {} entered at {}", user.getId(), LocalDateTime.now());
+        waitingMapper.updateWaitingLog(user.getId());
+        log.info("UserId is {} entered at {}", user.getId(), LocalDateTime.now());
     }
 }

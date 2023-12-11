@@ -1,4 +1,4 @@
-package com.king.app.mapper;
+package com.king.app.infrastructure.mapper;
 
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.presentation.api.waiting.dto.WaitTimeDto;
@@ -48,6 +48,5 @@ public interface WaitingMapper {
     /*
     대기하기 누르기 DB
      */
-    void updateWaitingLog(@Param("today") LocalDate today,
-                          @Param("userId") Long userId);
+    void updateWaitingLog(@Param("userId") Long userId);
 }
