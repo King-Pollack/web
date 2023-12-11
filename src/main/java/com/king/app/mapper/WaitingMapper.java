@@ -48,6 +48,5 @@ public interface WaitingMapper {
     /*
     대기하기 누르기 DB
      */
-    void updateWaitingLog(@Param("today") LocalDate today,
-                          @Param("userId") Long userId);
+    void updateWaitingLog(@Param("userId") Long userId);
 }

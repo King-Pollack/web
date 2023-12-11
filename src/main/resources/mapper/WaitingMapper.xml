@@ -90,10 +90,10 @@
 
     </select>
 
-    <update id="updateWaitingLog" parameterType="map">
+    <update id="updateWaitingLog" parameterType="Long">
         UPDATE waiting_log
         SET entered_dt = now()
-        where date(waiting_dt) = #{today} and user_id = #{userId}
+        where entered_dt is null and user_id = #{userId}
     </update>
 
 </mapper>
