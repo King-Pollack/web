@@ -1,6 +1,6 @@
-package com.king.app.application.api.waiting.service;
+package com.king.app.application.waiting;
 
-import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
+import com.king.app.application.waiting.dto.WeekDateTimeDto;
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.mapper.WaitingMapper;
 import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;

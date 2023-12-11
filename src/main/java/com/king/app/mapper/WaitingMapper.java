@@ -44,4 +44,10 @@ public interface WaitingMapper {
 
     List<WaitTimeDto> findAllMonthWaitTime(@Param("year") Integer year,
                                            @Param("month") Integer month);
+
+    /*
+    대기하기 누르기 DB
+     */
+    void updateWaitingLog(@Param("today") LocalDate today,
+                          @Param("userId") Long userId);
 }

@@ -1,7 +1,7 @@
 package com.king.app.presentation.api.waiting.controller;
 
-import com.king.app.application.api.waiting.service.WaitTimeService;
-import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
+import com.king.app.application.waiting.WaitTimeService;
+import com.king.app.application.waiting.dto.WeekDateTimeDto;
 import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
 import com.king.app.presentation.api.waiting.response.AverageWaitTimeResponse;
 import lombok.RequiredArgsConstructor;
