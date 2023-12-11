@@ -3,7 +3,7 @@ package com.king.app.application.waiting;
 import com.king.app.domain.user.User;
 import com.king.app.domain.waiting.WaitingLog;
 import com.king.app.infrastructure.repository.waiting.WaitingLogRepository;
-import com.king.app.mapper.WaitingMapper;
+import com.king.app.infrastructure.mapper.WaitingMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

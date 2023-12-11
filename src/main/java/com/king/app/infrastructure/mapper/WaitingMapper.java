@@ -1,4 +1,4 @@
-package com.king.app.mapper;
+package com.king.app.infrastructure.mapper;
 
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.presentation.api.waiting.dto.WaitTimeDto;
