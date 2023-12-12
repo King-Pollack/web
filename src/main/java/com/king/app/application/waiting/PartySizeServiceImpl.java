@@ -27,7 +27,12 @@ public class PartySizeServiceImpl implements PartySizeService {
     public AveragePartySizeResponse getWeekPartySizeAverage(WeekDateTimeDto date) {
         WeekDto initWeek = WeekDto
                 .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
-        Double partySize = Math.ceil(waitingMapper.getWeekPartySize(initWeek) * 10.0) / 10.0;
+        Double weekPartySize = waitingMapper.getWeekPartySize(initWeek);
+        if (weekPartySize == null) {
+            System.out.println("NPE 발생");
+            return null;
+        }
+        Double partySize = Math.ceil(weekPartySize * 10.0) / 10.0;
         return getAveragePartySizeResponse(partySize);
     }
 
