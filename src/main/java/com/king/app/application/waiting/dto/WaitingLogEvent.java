@@ -1,18 +1,16 @@
-package com.king.app.domain.waiting;
+package com.king.app.application.waiting.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @AllArgsConstructor
 @Getter
-public class WaitingTeam {
+public class WaitingLogEvent {
     private Long userId;
     private String phoneNumber;
     private Integer partySize;
 
-    @Override
-    public String toString() {
-        return userId+":"+phoneNumber+":"+ partySize;
+    public String getKey() {
+        return userId+":"+phoneNumber+":"+partySize;
     }
 }

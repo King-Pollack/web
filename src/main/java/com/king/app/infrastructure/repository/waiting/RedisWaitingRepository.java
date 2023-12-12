@@ -23,11 +23,10 @@ public class RedisWaitingRepository implements WaitingRepository {
     public WaitingTeam save(WaitingTeam waitingTeam) {
         String phoneAndNumberOfPeopleCount = redisTemplate.opsForValue().get(String.valueOf(waitingTeam.getUserId()));
         if (StringUtils.isNotBlank(phoneAndNumberOfPeopleCount)) {
-            //todo: 대기 페이지 이동
             throw new IllegalArgumentException("Already waiting userId: " + waitingTeam.getUserId());
         }
         redisTemplate.opsForZSet().add(WAITING_KEY, waitingTeam.toString(), System.currentTimeMillis());
-        redisTemplate.opsForValue().set(String.valueOf(waitingTeam.getUserId()), waitingTeam.getPhoneNumber()+":"+waitingTeam.getNumberOfPeople());
+        redisTemplate.opsForValue().set(String.valueOf(waitingTeam.getUserId()), waitingTeam.getPhoneNumber()+":"+waitingTeam.getPartySize());
         return waitingTeam;
     }
 
@@ -50,6 +49,13 @@ public class RedisWaitingRepository implements WaitingRepository {
             Double maxScore = redisTemplate.opsForZSet().score(WAITING_KEY, range.iterator().next());
             redisTemplate.opsForZSet().add(WAITING_KEY, redisKey, maxScore + 1);
         }
+    }
+
+    @Override
+    public void rollback(String key) {
+        redisTemplate.opsForZSet().remove(WAITING_KEY, key);
+        String userId = key.split(":")[0];
+        redisTemplate.delete(userId);
     }
 
     private String makeRedisKey(String userId) {
