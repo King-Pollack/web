@@ -6,12 +6,15 @@ import com.king.app.infrastructure.mapper.WaitingMapper;
 import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
 import com.king.app.presentation.api.waiting.response.AveragePartySizeResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PartySizeServiceImpl implements PartySizeService {
     private final WaitingMapper waitingMapper;
 
@@ -29,7 +32,7 @@ public class PartySizeServiceImpl implements PartySizeService {
                 .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
         Double weekPartySize = waitingMapper.getWeekPartySize(initWeek);
         if (weekPartySize == null) {
-            System.out.println("NPE 발생");
+            log.error("NPE 발생");
             return null;
         }
         Double partySize = Math.ceil(weekPartySize * 10.0) / 10.0;
@@ -44,7 +47,7 @@ public class PartySizeServiceImpl implements PartySizeService {
 
     private static AveragePartySizeResponse getAveragePartySizeResponse(Double partySize) {
         if (partySize == null) {
-            System.out.println("NPE 떴음");
+            log.error("NPE 발생");
             return null;
         }
         return AveragePartySizeResponse.builder()
