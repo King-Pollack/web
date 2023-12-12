@@ -1,7 +1,7 @@
 package com.king.app.presentation.api.waiting.controller;
 
-import com.king.app.application.api.waiting.service.PartySizeService;
-import com.king.app.application.api.waiting.service.dto.WeekDateTimeDto;
+import com.king.app.application.waiting.PartySizeService;
+import com.king.app.application.waiting.dto.WeekDateTimeDto;
 import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
 import com.king.app.presentation.api.waiting.response.AveragePartySizeResponse;
 import lombok.RequiredArgsConstructor;

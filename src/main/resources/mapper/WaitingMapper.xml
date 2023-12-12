@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.king.app.mapper.WaitingMapper">
+<mapper namespace="com.king.app.infrastructure.mapper.WaitingMapper">
     <resultMap id="waitingLogResultMap" type="com.king.app.domain.waiting.WaitingLog">
         <id property="id" column="id" />
         <result property="waitingDt" column="waitingDt" />
@@ -89,5 +89,11 @@
         ORDER BY hour;
 
     </select>
+
+    <update id="updateWaitingLog" parameterType="Long">
+        UPDATE waiting_log
+        SET entered_dt = now()
+        where entered_dt is null and user_id = #{userId}
+    </update>
 
 </mapper>

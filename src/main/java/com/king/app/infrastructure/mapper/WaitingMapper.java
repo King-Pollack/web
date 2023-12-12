@@ -1,4 +1,4 @@
-package com.king.app.mapper;
+package com.king.app.infrastructure.mapper;
 
 import com.king.app.infrastructure.api.common.dto.WeekDto;
 import com.king.app.presentation.api.waiting.dto.WaitTimeDto;
@@ -44,4 +44,9 @@ public interface WaitingMapper {
 
     List<WaitTimeDto> findAllMonthWaitTime(@Param("year") Integer year,
                                            @Param("month") Integer month);
+
+    /*
+    대기하기 누르기 DB
+     */
+    void updateWaitingLog(@Param("userId") Long userId);
 }
