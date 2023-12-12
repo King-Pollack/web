@@ -29,7 +29,7 @@
                         <span class="input-group-text">전화번호</span>
                         <input type="text" id="phoneNumber" class="form-control" placeholder="전화번호" aria-label="phone">
                         <span class="input-group-text">인원 수</span>
-                        <input type="number" id="numberOfPeople" class="form-control" placeholder="인원수"
+                        <input type="number" id="partySize" class="form-control" placeholder="인원수"
                                aria-label="user-count">
                     </div>
                     <button id="waitingBtn" type="button" class="btn btn-warning">대기하기</button>
@@ -54,10 +54,10 @@
         $('#waitingBtn').click(function (event) {
             event.preventDefault();
             var phoneNumber = $('#phoneNumber').val();
-            var numberOfPeople = $('#numberOfPeople').val();
+            var partySize = $('#partySize').val();
             var data = {
                 phoneNumber: phoneNumber,
-                numberOfPeople: numberOfPeople
+                partySize: partySize
             };
             $.ajax({
                 type: 'POST',
@@ -96,10 +96,10 @@
     function moveBack(event) {
         event.preventDefault();
         var phoneNumber = $('#phoneNumber').val();
-        var numberOfPeople = $('#numberOfPeople').val();
+        var partySize = $('#partySize').val();
         var data = {
             phoneNumber: phoneNumber,
-            numberOfPeople: numberOfPeople
+            partySize: partySize
         };
         $.ajax({
             type: 'POST',
@@ -123,10 +123,10 @@
     function moveToLast(event) {
         event.preventDefault();
         var phoneNumber = $('#phoneNumber').val();
-        var numberOfPeople = $('#numberOfPeople').val();
+        var partySize = $('#partySize').val();
         var data = {
             phoneNumber: phoneNumber,
-            numberOfPeople: numberOfPeople
+            partySize: partySize
         };
         $.ajax({
             type: 'POST',

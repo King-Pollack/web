@@ -9,10 +9,10 @@ import lombok.Getter;
 public class WaitingTeam {
     private Long userId;
     private String phoneNumber;
-    private String numberOfPeople;
+    private String partySize;
 
     @Override
     public String toString() {
-        return userId+":"+phoneNumber+":"+numberOfPeople;
+        return userId+":"+phoneNumber+":"+ partySize;
     }
 }
