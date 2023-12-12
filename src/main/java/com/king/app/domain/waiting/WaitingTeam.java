@@ -9,7 +9,7 @@ import lombok.Getter;
 public class WaitingTeam {
     private Long userId;
     private String phoneNumber;
-    private String partySize;
+    private Integer partySize;
 
     @Override
     public String toString() {

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access=AccessLevel.PRIVATE)
 public class WaitingTeamResponse {
     private String phoneNumber;
-    private String partySize;
+    private Integer partySize;
 
     public static WaitingTeamResponse from(WaitingTeam waitingTeam) {
         return new WaitingTeamResponse(waitingTeam.getPhoneNumber(), waitingTeam.getPartySize());
