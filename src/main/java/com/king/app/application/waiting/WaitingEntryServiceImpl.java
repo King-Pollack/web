@@ -6,12 +6,15 @@ import com.king.app.infrastructure.mapper.WaitingMapper;
 import com.king.app.presentation.api.waiting.request.MonthDateTimeRequest;
 import com.king.app.presentation.api.waiting.response.AverageEntryTimeResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class WaitingEntryServiceImpl implements WaitingEntryService {
     private final WaitingMapper waitingMapper;
 
@@ -41,7 +44,7 @@ public class WaitingEntryServiceImpl implements WaitingEntryService {
     private static AverageEntryTimeResponse getAverageEntryTimeResponse(Double averageEntryTime) {
         if (averageEntryTime == null) {
             // global exception 처리 요망
-            System.out.println("NPE 떴음");
+            log.error("NPE 발생");
             return null;
         }
         String strMinutes = Integer.toString((int) (averageEntryTime / 60));
