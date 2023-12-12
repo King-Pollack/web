@@ -51,6 +51,13 @@ public class RedisWaitingRepository implements WaitingRepository {
         }
     }
 
+    @Override
+    public void rollback(String key) {
+        redisTemplate.opsForZSet().remove(WAITING_KEY, key);
+        String userId = key.split(":")[0];
+        redisTemplate.delete(userId);
+    }
+
     private String makeRedisKey(String userId) {
         String phoneAndNumberOfPeopleCount = redisTemplate.opsForValue().get(userId);
         if (StringUtils.isBlank(phoneAndNumberOfPeopleCount)) {
