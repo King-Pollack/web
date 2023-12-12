@@ -32,7 +32,7 @@ public class PartySizeServiceImpl implements PartySizeService {
             System.out.println("NPE 발생");
             return null;
         }
-        Double partySize = Math.ceil(waitingMapper.getWeekPartySize(initWeek) * 10.0) / 10.0;
+        Double partySize = Math.ceil(weekPartySize * 10.0) / 10.0;
         return getAveragePartySizeResponse(partySize);
     }
 
