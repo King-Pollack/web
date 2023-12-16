@@ -19,9 +19,9 @@ public class PartySizeAnalyticsController {
 
     @GetMapping("/today")
     public ResponseEntity<AveragePartySizeResponse> getPartySizeToday() {
-        AveragePartySizeResponse weekPartySizeAverage =
+        AveragePartySizeResponse todayPartySizeAverage =
                 partySizeService.getTodayPartySizeAverage();
-        return ResponseEntity.ok(weekPartySizeAverage);
+        return ResponseEntity.ok(todayPartySizeAverage);
     }
 
     @GetMapping("/week")
@@ -35,8 +35,8 @@ public class PartySizeAnalyticsController {
     @GetMapping("/month")
     public ResponseEntity<AveragePartySizeResponse> getPartySizeMonth(
             @RequestBody MonthDateTimeRequest date) {
-        AveragePartySizeResponse weekPartySizeAverage =
+        AveragePartySizeResponse monthPartySizeAverage =
                 partySizeService.getMonthPartySizeAverage(date);
-        return ResponseEntity.ok(weekPartySizeAverage);
+        return ResponseEntity.ok(monthPartySizeAverage);
     }
 }
