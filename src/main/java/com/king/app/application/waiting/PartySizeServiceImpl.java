@@ -23,7 +23,7 @@ public class PartySizeServiceImpl implements PartySizeService {
         LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
         LocalDateTime now = LocalDateTime.now();
         Double todayPartySize = waitingMapper.getTodayPartySize(startOfDay, now);
-        return getAveragePartySizeResponse(todayPartySize);
+        return getPartySizeResponse(todayPartySize);
     }
 
     @Override
@@ -31,26 +31,23 @@ public class PartySizeServiceImpl implements PartySizeService {
         WeekDto initWeek = WeekDto
                 .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
         Double weekPartySize = waitingMapper.getWeekPartySize(initWeek);
-        if (weekPartySize == null) {
-            log.error("NPE 발생");
-            return null;
-        }
-        Double partySize = Math.ceil(weekPartySize * 10.0) / 10.0;
-        return getAveragePartySizeResponse(partySize);
+        return getPartySizeResponse(weekPartySize);
     }
 
     @Override
     public AveragePartySizeResponse getMonthPartySizeAverage(MonthDateTimeRequest date) {
         Double monthPartySize = waitingMapper.getMonthPartySize(date.getYear(), date.getMonth());
-        return getAveragePartySizeResponse(monthPartySize);
+        return getPartySizeResponse(monthPartySize);
     }
 
-    private static AveragePartySizeResponse getAveragePartySizeResponse(Double partySize) {
-        if (partySize == null) {
+    private AveragePartySizeResponse getPartySizeResponse(Double todayPartySize) {
+        if (todayPartySize == null) {
             log.error("NPE 발생");
             return null;
         }
+        double partySize = Math.ceil(todayPartySize * 10.0) / 10.0;
         return AveragePartySizeResponse.builder()
-                .partySize(partySize.toString()).build();
+                .partySize(Double.toString(partySize))
+                .build();
     }
 }
