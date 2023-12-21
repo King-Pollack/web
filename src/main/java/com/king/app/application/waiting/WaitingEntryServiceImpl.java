@@ -41,7 +41,7 @@ public class WaitingEntryServiceImpl implements WaitingEntryService {
         return getAverageEntryTimeResponse(averageEntryTime);
     }
 
-    private static AverageEntryTimeResponse getAverageEntryTimeResponse(Double averageEntryTime) {
+    private AverageEntryTimeResponse getAverageEntryTimeResponse(Double averageEntryTime) {
         if (averageEntryTime == null) {
             // global exception 처리 요망
             log.error("NPE 발생");
