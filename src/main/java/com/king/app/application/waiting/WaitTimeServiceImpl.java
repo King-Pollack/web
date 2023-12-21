@@ -40,20 +40,20 @@ public class WaitTimeServiceImpl implements WaitTimeService{
                 .createInitializedWeekDto(date.getYear(), date.getMonth(), date.getWeek());
         int lastDay = initWeek.getLastDay().getDayOfMonth();
         int firstDay = initWeek.getFirstDay().getDayOfMonth();
-        Integer days = lastDay - firstDay + 1;
+        int days = lastDay - firstDay + 1;
         List<AverageWaitTimeResponse> list = new ArrayList<>();
         List<WaitTimeDto> allWeekWaitTime =
                 waitingMapper.findAllWeekWaitTime(initWeek);
         for (WaitTimeDto waitTimeDto : allWeekWaitTime) {
             // 일주일 간 count 수 가져오기
-            Integer count1 = waitTimeDto.getCount();
+            Integer weekCount = waitTimeDto.getCount();
             // 일 수만큼 나누기
-            Double dayCountAverage = (double) count1 / days;
+            double dayCountAverage = (double) weekCount / days;
             // 소수점 반올림
-            Double count = Math.round(dayCountAverage * 10) / 10.0;
+            double count = Math.round(dayCountAverage * 10) / 10.0;
             AverageWaitTimeResponse build = AverageWaitTimeResponse.builder()
                     .hour(waitTimeDto.getHour().toString())
-                    .count(count.toString())
+                    .count(Double.toString(count))
                     .build();
             list.add(build);
         }
@@ -63,16 +63,16 @@ public class WaitTimeServiceImpl implements WaitTimeService{
     @Override
     public List<AverageWaitTimeResponse> findAllMonthWaitTime(MonthDateTimeRequest date) {
         LocalDate lastDayOfMonth = getLastDayOfMonth(date.getYear(), date.getMonth());
-        Integer days = lastDayOfMonth.getDayOfMonth();
+        int days = lastDayOfMonth.getDayOfMonth();
         List<AverageWaitTimeResponse> list = new ArrayList<>();
         List<WaitTimeDto> allMonthWaitTime = waitingMapper.findAllMonthWaitTime(date.getYear(), date.getMonth());
         for (WaitTimeDto waitTimeDto : allMonthWaitTime) {
             Integer count = waitTimeDto.getCount();
-            Double divideCount = (double) count / days;
-            Double countResult = Math.round(divideCount * 100) / 100.0;
+            double divideCount = (double) count / days;
+            double countResult = Math.round(divideCount * 100) / 100.0;
             AverageWaitTimeResponse build = AverageWaitTimeResponse.builder()
                     .hour(waitTimeDto.getHour().toString())
-                    .count(countResult.toString())
+                    .count(Double.toString(countResult))
                     .build();
             list.add(build);
         }

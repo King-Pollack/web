@@ -45,9 +45,9 @@ public class PartySizeServiceImpl implements PartySizeService {
             log.error("NPE 발생");
             return null;
         }
-        Double partySize = Math.ceil(todayPartySize * 10.0) / 10.0;
+        double partySize = Math.ceil(todayPartySize * 10.0) / 10.0;
         return AveragePartySizeResponse.builder()
-                .partySize(partySize.toString())
+                .partySize(Double.toString(partySize))
                 .build();
     }
 }
