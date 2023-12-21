@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class WaitingTeamRequest {
     private String phoneNumber;
-    private String partySize;
+    private Integer partySize;
 
     public WaitingTeam toEntity(Long userId) {
         return new WaitingTeam(userId,this.phoneNumber, this.partySize);

@@ -8,4 +8,6 @@ public interface WaitingRepository {
     void moveOneStepBack(String userId);
 
     void moveToLast(String userId);
+
+    void rollback(String key);
 }
