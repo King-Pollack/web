@@ -1,5 +1,6 @@
 package com.king.app.common.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
     private ErrorCode errorCode;
     private String errorMessage;
