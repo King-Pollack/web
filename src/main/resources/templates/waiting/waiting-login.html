@@ -28,7 +28,7 @@
         </main>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/eventsource/0.9.6/eventsource.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/eventsource-polyfill/0.9.6/eventsource.js"></script>
 <script src="https://getbootstrap.kr/docs/5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
@@ -37,17 +37,8 @@
         integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG"
         crossorigin="anonymous"></script>
 <script src="https://getbootstrap.kr/docs/5.3/examples/dashboard/dashboard.js"></script>
-<script src="../../static/js/scripts.js"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{/js/waiting-login.js}"></script>
 
-<script th:inline="javascript">
-    var eventSource = new EventSource('/data-stream');
-
-    eventSource.onmessage = function(event) {
-        var dataContainer = document.getElementById("data-container");
-        var newData = document.createElement("p");
-        newData.innerText = event.data;
-        dataContainer.appendChild(newData);
-    };
-</script>
 </body>
 </html>
