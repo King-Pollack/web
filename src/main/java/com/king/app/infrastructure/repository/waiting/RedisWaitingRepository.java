@@ -58,6 +58,13 @@ public class RedisWaitingRepository implements WaitingRepository {
         redisTemplate.delete(userId);
     }
 
+    @Override
+    public void waitingCheck(String userId) {
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(userId))) {
+            throw new IllegalArgumentException("User Id that is not waiting: " + userId);
+        }
+    }
+
     private String makeRedisKey(String userId) {
         String phoneAndNumberOfPeopleCount = redisTemplate.opsForValue().get(userId);
         if (StringUtils.isBlank(phoneAndNumberOfPeopleCount)) {
@@ -66,5 +73,16 @@ public class RedisWaitingRepository implements WaitingRepository {
         return userId + ":" + phoneAndNumberOfPeopleCount;
     }
 
+
+    public Long getCurrentWaitingTeam() {
+        ZSetOperations<String, String> zSetOps = redisTemplate.opsForZSet();
+        return zSetOps.size(WAITING_KEY);
+    }
+
+    public Long getMyWaitingRanking(String userId) {
+        String redisKey = makeRedisKey(userId);
+        ZSetOperations<String, String> zSetOps = redisTemplate.opsForZSet();
+        return zSetOps.rank(WAITING_KEY, redisKey);
+    }
 
 }

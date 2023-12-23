@@ -8,4 +8,6 @@ public interface WaitingService {
     void moveOneStepBack(String userId);
 
     void moveToLast(String userId);
+
+    void waitingCheck(String userId);
 }

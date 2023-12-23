@@ -19,6 +19,9 @@ public enum UserAgeRange {
     AGE_90_PLUS("90~"); // 90세 이상
     private final String value;
     public static UserAgeRange of(String value) {
+        if (value == null) {
+            return null;
+        }
         for (UserAgeRange userAgeRange : UserAgeRange.values()) {
             if (userAgeRange.getValue().equals(value)) {
                 return userAgeRange;

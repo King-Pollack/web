@@ -53,4 +53,13 @@ public class WaitingAPIController {
         waitingService.moveToLast(userId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/check")
+    public ResponseEntity<Void> waitingCheck(Principal principal) {
+
+        String userId = principal.getName();
+        log.debug("userId : {}", userId);
+        waitingService.waitingCheck(userId);
+        return ResponseEntity.ok().build();
+    }
 }
