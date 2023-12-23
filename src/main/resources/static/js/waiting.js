@@ -40,8 +40,9 @@ $(document).ready(function () {
 
 function waitingSuccess() {
     $('#waitingBtn').remove();
-    $('#waitingForm').append('<div><button id="moveBackBtn" type="button" class="btn btn-warning">1팀 뒤로가기</button></div>');
-    $('#waitingForm').append('<div><button id="moveToLastBtn" type="button" class="btn btn-warning">맨 뒤로가기</button></div>');
+    $('#waitingForm').append('<div><button id="moveBackBtn" type="button" class="btn btn-warning">1팀 뒤로가기</button>\n' +
+        '<button id="moveToLastBtn" type="button" class="btn btn-warning">맨 뒤로가기</button>\n' +
+        '</div>');
     // 새로운 버튼에 이벤트 핸들러 추가
     $('#moveBackBtn').click(moveBack);
     $('#moveToLastBtn').click(moveToLast);
@@ -101,25 +102,27 @@ function moveToLast(event) {
     });
 }
 
+var eventSource;
+var origin;
 
-function nonWaitingStream() {
-    var eventSource = new EventSource('/waiting/stream/total-team');
-    eventSource.onmessage = function (event) {
-        var dataContainer = document.getElementById("data-container");
-        dataContainer.innerHTML = "";
-        var newData = document.createElement("p");
-        newData.innerText = '현재 대기 팀 : ' + event.data + ' 팀'
-        dataContainer.appendChild(newData);
-    };
-    eventSource.onerror = function(event) {
-        setTimeout(function() {
-            eventSource =  new EventSource('/waiting/stream/total-team');
-        }, 10000);
-    };
+function createEventSource(url) {
+    if (eventSource === undefined) {
+        eventSource = new EventSource(url);
+        origin=url;
+        return eventSource;
+    }
+    if (origin !== url) {
+        eventSource.close();
+        eventSource = new EventSource(url);
+        origin=url;
+        return eventSource;
+    } else {
+        return eventSource;
+    }
 }
 
 function waitingStream() {
-    var eventSource = new EventSource('/waiting/stream/my-ranking');
+    var eventSource = createEventSource('/waiting/stream/my-ranking');
     eventSource.onmessage = function (event) {
         var dataContainer = document.getElementById("data-container");
         dataContainer.innerHTML = "";
@@ -130,7 +133,23 @@ function waitingStream() {
     };
     eventSource.onerror = function(event) {
         setTimeout(function() {
-            eventSource =  new EventSource('/waiting/stream/my-ranking');
+            createEventSource('/waiting/stream/my-ranking');
+        }, 10000);
+    };
+}
+
+function nonWaitingStream() {
+    var eventSource = createEventSource('/waiting/stream/total-team');
+    eventSource.onmessage = function (event) {
+        var dataContainer = document.getElementById("data-container");
+        dataContainer.innerHTML = "";
+        var newData = document.createElement("p");
+        newData.innerText = '현재 대기 팀 : ' + event.data + ' 팀'
+        dataContainer.appendChild(newData);
+    };
+    eventSource.onerror = function(event) {
+        setTimeout(function() {
+            createEventSource('/waiting/stream/total-team');
         }, 10000);
     };
 }
