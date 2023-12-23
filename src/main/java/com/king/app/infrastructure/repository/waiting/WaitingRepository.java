@@ -10,4 +10,6 @@ public interface WaitingRepository {
     void moveToLast(String userId);
 
     void rollback(String key);
+
+    void waitingCheck(String userId);
 }

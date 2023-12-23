@@ -13,14 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class RedisWaitingService implements WaitingService {
 
     private final WaitingRepository waitingRepository;
+    private final WaitingSSEServiceImpl sseService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional(noRollbackFor = {RuntimeException.class, Exception.class})
     public WaitingTeam waitingTeam(WaitingTeam waitingTeam) {
-        WaitingTeam team = null;
+        WaitingTeam team;
         try {
             team = waitingRepository.save(waitingTeam);
+            sseService.totalWaitingTeamEventPublish();
+            sseService.myRankEventPublish();
             eventPublisher.publishEvent(new WaitingLogEvent(team.getUserId(), team.getPhoneNumber(), team.getPartySize()));
         } catch (RuntimeException e) {
             //todo: throw custom exception
@@ -33,10 +36,19 @@ public class RedisWaitingService implements WaitingService {
     @Override
     public void moveOneStepBack(String userId) {
         waitingRepository.moveOneStepBack(userId);
+        sseService.totalWaitingTeamEventPublish();
+        sseService.myRankEventPublish();
     }
 
     @Override
     public void moveToLast(String userId) {
         waitingRepository.moveToLast(userId);
+        sseService.totalWaitingTeamEventPublish();
+        sseService.myRankEventPublish();
+    }
+
+    @Override
+    public void waitingCheck(String userId) {
+        waitingRepository.waitingCheck(userId);
     }
 }
