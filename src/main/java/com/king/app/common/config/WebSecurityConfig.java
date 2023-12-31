@@ -14,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
+import static jakarta.servlet.DispatcherType.ERROR;
+import static jakarta.servlet.DispatcherType.FORWARD;
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
@@ -34,8 +37,10 @@ public class WebSecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
+                                .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
+                                .requestMatchers("/js/**","/assets/**").permitAll()
                                 .requestMatchers("/waiting/login").permitAll()
-                                .requestMatchers("js/**").permitAll()
+                                .requestMatchers("/waiting/stream/total-team").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->

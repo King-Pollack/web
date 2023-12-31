@@ -12,8 +12,7 @@
 
             <div class="py-5 text-center container bg-main">
                 <main>
-                    <h1>현재 대기팀 3팀</h1>
-                    <h1>나의 순번 1번째</h1>
+                    <div id="data-container"></div>
                     <div class="progress" role="progressbar" aria-label="Warning example" aria-valuenow="75"
                          aria-valuemin="0" aria-valuemax="100">
                         <div class="progress-bar bg-warning" style="width: 75%"></div>
@@ -48,104 +47,7 @@
         integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG"
         crossorigin="anonymous"></script>
 <script src="https://getbootstrap.kr/docs/5.3/examples/dashboard/dashboard.js"></script>
-<script src="../../js/scripts.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#waitingBtn').click(function (event) {
-            event.preventDefault();
-            var phoneNumber = $('#phoneNumber').val();
-            var partySize = $('#partySize').val();
-            var data = {
-                phoneNumber: phoneNumber,
-                partySize: partySize
-            };
-            $.ajax({
-                type: 'POST',
-                url: '/api/waiting', // Replace with your backend script URL
-                data: JSON.stringify(data),
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function (response) {
-                    alert('대기 등록이 완료되었습니다.');
-                    waitingSuccess();
-                },
-                error: function (xhr, status, error) {
-                    if (xhr.status === 200) {
-                        return;
-                    }
-                    if (xhr.status === 308) {
-                        alert('이미 대기중입니다.');
-                        waitingSuccess();
-                        return;
-                    }
-                    alert('error');
-                }
-            });
-        });
-    });
-
-    function waitingSuccess() {
-        $('#waitingBtn').remove();
-        $('#waitingForm').append('<div><button id="moveBackBtn" type="button" class="btn btn-warning">1팀 뒤로가기</button></div>');
-        $('#waitingForm').append('<div><button id="moveToLastBtn" type="button" class="btn btn-warning">맨 뒤로가기</button></div>');
-        // 새로운 버튼에 이벤트 핸들러 추가
-        $('#moveBackBtn').click(moveBack);
-        $('#moveToLastBtn').click(moveToLast);
-    }
-
-    function moveBack(event) {
-        event.preventDefault();
-        var phoneNumber = $('#phoneNumber').val();
-        var partySize = $('#partySize').val();
-        var data = {
-            phoneNumber: phoneNumber,
-            partySize: partySize
-        };
-        $.ajax({
-            type: 'POST',
-            url: '/api/waiting/move-one-step-back',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (response) {
-                alert('1팀 뒤로 이동하였습니다.');
-            },
-            error: function (xhr, status, error) {
-                if (xhr.status === 200) {
-                    alert('1팀 뒤로 이동하였습니다.');
-                    return;
-                }
-                alert('error');
-            }
-        });
-    }
-
-    function moveToLast(event) {
-        event.preventDefault();
-        var phoneNumber = $('#phoneNumber').val();
-        var partySize = $('#partySize').val();
-        var data = {
-            phoneNumber: phoneNumber,
-            partySize: partySize
-        };
-        $.ajax({
-            type: 'POST',
-            url: '/api/waiting/move-to-last',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (response) {
-                alert('맨 뒤로 이동하였습니다.');
-            },
-            error: function (xhr, status, error) {
-                if (xhr.status === 200) {
-                    alert('맨 뒤로 이동하였습니다.');
-                    return;
-                }
-                alert('error');
-            }
-        });
-    }
-</script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{/js/waiting.js}"></script>
 </body>
 </html>
