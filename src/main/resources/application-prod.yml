@@ -38,7 +38,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: dev-db-redis
+      on-profile: prod-db-redis
 db-redis:
   host: ${DB-REDIS_HOST}
   port: ${DB-REDIS_PORT}
@@ -47,7 +47,7 @@ db-redis:
 spring:
   config:
     activate:
-      on-profile: dev-cache-redis
+      on-profile: prod-cache-redis
 cache-redis:
   host: ${CACHE-REDIS_HOST}
   port: ${CACHE-REDIS_PORT}
