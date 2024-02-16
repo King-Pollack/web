@@ -6,6 +6,8 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+mybatis:
+  mapper-locations: mapper/**/*.xml
 ---
 spring:
   config:
