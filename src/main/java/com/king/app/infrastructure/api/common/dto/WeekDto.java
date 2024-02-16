@@ -29,7 +29,9 @@ public class WeekDto {
         } else {
             endDate = firstDayOfMonth.withDayOfMonth(endDay);
         }
-
+        if (week == 5) {
+            endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+        }
         this.firstDay = startDate.atStartOfDay();
         this.lastDay = endDate.atTime(23, 59, 59);
     }
