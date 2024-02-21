@@ -40,8 +40,8 @@ $(document).ready(function () {
 
 function waitingSuccess() {
     $('#waitingBtn').remove();
-    $('#waitingForm').append('<div><button id="moveBackBtn" type="button" class="btn btn-warning">1팀 뒤로가기</button>\n' +
-        '<button id="moveToLastBtn" type="button" class="btn btn-warning">맨 뒤로가기</button>\n' +
+    $('#waitingForm').append('<div><button id="moveBackBtn" type="button" class="btn btn-warning" style="font-weight: 900">1팀 뒤로가기</button>\n' +
+        '<button id="moveToLastBtn" type="button" class="btn btn-warning" style="font-weight: 900">맨 뒤로가기</button>\n' +
         '</div>');
     // 새로운 버튼에 이벤트 핸들러 추가
     $('#moveBackBtn').click(moveBack);

@@ -12,7 +12,7 @@
 
             <div class="py-5 text-center container bg-main">
                 <main>
-                    <div id="data-container"></div>
+                    <div id="data-container" style="font-weight: 900"></div>
                     <div class="progress" role="progressbar" aria-label="Warning example" aria-valuenow="75"
                          aria-valuemin="0" aria-valuemax="100">
                         <div class="progress-bar bg-warning" style="width: 75%"></div>
@@ -27,11 +27,14 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text">전화번호</span>
                         <input type="text" id="phoneNumber" class="form-control" placeholder="전화번호" aria-label="phone">
-                        <span class="input-group-text">인원 수</span>
+                    </div>
+
+                    <div class="input-group mb-3" style="margin-top: 10px">
+                        <span class="input-group-text" style="padding: 0.375rem 1.07rem;">인원 수</span>
                         <input type="number" id="partySize" class="form-control" placeholder="인원수"
                                aria-label="user-count">
                     </div>
-                    <button id="waitingBtn" type="button" class="btn btn-warning">대기하기</button>
+                    <button id="waitingBtn" type="button" class="btn btn-warning" style="font-weight: 900">대기하기</button>
                 </form>
             </div>
 
