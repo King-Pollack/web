@@ -7,6 +7,7 @@ eventSource.onmessage = function(event) {
     dataContainer.appendChild(newData);
     eventSource.onerror = function(event) {
         setTimeout(function() {
+            eventSource.close();
             eventSource =  new EventSource('/waiting/stream/total-team');
         }, 10000);
     };

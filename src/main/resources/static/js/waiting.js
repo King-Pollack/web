@@ -40,8 +40,8 @@ $(document).ready(function () {
 
 function waitingSuccess() {
     $('#waitingBtn').remove();
-    $('#waitingForm').append('<div><button id="moveBackBtn" type="button" class="btn btn-warning">1팀 뒤로가기</button>\n' +
-        '<button id="moveToLastBtn" type="button" class="btn btn-warning">맨 뒤로가기</button>\n' +
+    $('#waitingForm').append('<div><button id="moveBackBtn" type="button" class="btn btn-warning" style="font-weight: 900">1팀 뒤로가기</button>\n' +
+        '<button id="moveToLastBtn" type="button" class="btn btn-warning" style="font-weight: 900">맨 뒤로가기</button>\n' +
         '</div>');
     // 새로운 버튼에 이벤트 핸들러 추가
     $('#moveBackBtn').click(moveBack);
@@ -102,56 +102,56 @@ function moveToLast(event) {
     });
 }
 
-var eventSource;
-var origin;
-
-function createEventSource(url) {
-    if (eventSource === undefined) {
-        eventSource = new EventSource(url);
-        origin=url;
-        return eventSource;
-    }
-    if (origin !== url) {
-        eventSource.close();
-        eventSource = new EventSource(url);
-        origin=url;
-        return eventSource;
-    } else {
-        return eventSource;
-    }
-}
-
+var eventSourceRank;
 function waitingStream() {
-    var eventSource = createEventSource('/waiting/stream/my-ranking');
-    eventSource.onmessage = function (event) {
-        var dataContainer = document.getElementById("data-container");
-        dataContainer.innerHTML = "";
-        var newData = document.createElement("p");
-        let data = event.data.split(':');
-        newData.innerText = '현재 대기 팀 : ' + data[0] + ' 팀' + '\n' + '나의 순위 : ' + data[1] + ' 번째 '
-        dataContainer.appendChild(newData);
-    };
-    eventSource.onerror = function(event) {
-        setTimeout(function() {
-            createEventSource('/waiting/stream/my-ranking');
-        }, 10000);
-    };
+    if (eventSourceTeam != null) {
+        eventSourceTeam.close();
+    }
+    eventSourceRank = new EventSource('/waiting/stream/my-ranking');
+    eventSourceRank.onmessage = handleEventMessage;
+    eventSourceRank.onerror = handleEventError;
 }
+
+function handleEventMessage(event) {
+    var dataContainer = document.getElementById("data-container");
+    dataContainer.innerHTML = "";
+    var newData = document.createElement("p");
+    let data = event.data.split(':');
+    newData.innerText = '현재 대기 팀 : ' + data[0] + ' 팀' + '\n' + '나의 순위 : ' + data[1] + ' 번째 '
+    dataContainer.appendChild(newData);
+}
+
+function handleEventError() {
+    setTimeout(function () {
+        eventSourceRank.close();
+        waitingStream();
+    }, 10000);
+}
+
+var eventSourceTeam;
 
 function nonWaitingStream() {
-    var eventSource = createEventSource('/waiting/stream/total-team');
-    eventSource.onmessage = function (event) {
-        var dataContainer = document.getElementById("data-container");
-        dataContainer.innerHTML = "";
-        var newData = document.createElement("p");
-        newData.innerText = '현재 대기 팀 : ' + event.data + ' 팀'
-        dataContainer.appendChild(newData);
-    };
-    eventSource.onerror = function(event) {
-        setTimeout(function() {
-            createEventSource('/waiting/stream/total-team');
-        }, 10000);
-    };
+    if (eventSourceRank != null) {
+        eventSourceRank.close();
+    }
+    eventSourceTeam = new EventSource('/waiting/stream/total-team');
+    eventSourceTeam.onmessage = handleNonWaitingMessage;
+    eventSourceTeam.onerror = handleNonWaitingError;
+}
+
+function handleNonWaitingMessage(eve정nt) {
+    var dataContainer = document.getElementById("data-container");
+    dataContainer.innerHTML = "";
+    var newData = document.createElement("p");
+    newData.innerText = '현재 대기 팀 : ' + event.data + ' 팀';
+    dataContainer.appendChild(newData);
+}
+
+function handleNonWaitingError() {
+    setTimeout(function () {
+        eventSourceTeam.close();
+        nonWaitingStream();
+    }, 10000);
 }
 
 function waitingCheck() {
