@@ -24,34 +24,34 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 @EnableRedisHttpSession
 public class WebSecurityConfig {
 
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
+	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+	private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+	private final CustomOAuth2UserService customOAuth2UserService;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                .authorizeHttpRequests(authorizeHttpRequests ->
-                        authorizeHttpRequests
-                                .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
-                                .requestMatchers("/js/**","/assets/**").permitAll()
-                                .requestMatchers("/waiting/login").permitAll()
-                                .requestMatchers("/waiting/stream/total-team").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .oauth2Login(oauth2Login ->
-                        oauth2Login
-                                .redirectionEndpoint(redirectionEndpoint ->
-                                        redirectionEndpoint.baseUri("/api/users/oauth2/login"))
-                                .userInfoEndpoint(userInfoEndpoint ->
-                                        userInfoEndpoint.userService(customOAuth2UserService))
-                                .successHandler(oAuth2LoginSuccessHandler)
-                                .failureHandler(oAuth2LoginFailureHandler));
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+				.csrf(AbstractHttpConfigurer::disable)
+				.formLogin(AbstractHttpConfigurer::disable)
+				.sessionManagement(sessionManagement ->
+						sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+				.authorizeHttpRequests(authorizeHttpRequests ->
+						authorizeHttpRequests
+								.dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
+								.requestMatchers("/js/**", "/assets/**").permitAll()
+								.requestMatchers("/waiting/login").permitAll()
+								.requestMatchers("/waiting/stream/total-team").permitAll()
+								.anyRequest().authenticated()
+				)
+				.oauth2Login(oauth2Login ->
+						oauth2Login
+								.redirectionEndpoint(redirectionEndpoint ->
+										redirectionEndpoint.baseUri("/api/users/oauth2/login"))
+								.userInfoEndpoint(userInfoEndpoint ->
+										userInfoEndpoint.userService(customOAuth2UserService))
+								.successHandler(oAuth2LoginSuccessHandler)
+								.failureHandler(oAuth2LoginFailureHandler));
 
-        return http.build();
-    }
+		return http.build();
+	}
 }
